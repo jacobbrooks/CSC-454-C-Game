@@ -57,6 +57,15 @@ void Game::init_creatures(){
 	}
 }
 
+void Game::free_all_memory(){
+	for(int i = 0; i < creatures.size(); i++){
+		delete creatures[i];
+	}
+	for(int i = 0; i < rooms.size(); i++){
+		delete rooms[i];
+	}
+}
+
 Creature* Game::get_creature(int id){
 	Creature* c = NULL;
 	for(int i = 0; i < creatures.size(); i++){
@@ -185,6 +194,7 @@ void Game::main(){
 	}
 	cout << endl;
 	cout << "Goodbye!" << endl;
+	free_all_memory();
 }
 
 int main(){

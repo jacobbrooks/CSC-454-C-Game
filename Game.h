@@ -18,6 +18,7 @@ public:
 	Creature* get_creature(int id);
 	bool creature_exists(int id);
 	bool game_over();
+	void free_all_memory();
 	void main();
 };
 
