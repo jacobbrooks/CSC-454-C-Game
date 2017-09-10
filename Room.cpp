@@ -121,7 +121,7 @@ void Room::incite_room_state_reactions(Game* g, int action, Creature* c){
 	int frozen_creature_count = creature_count;
 	Creature* creatures[frozen_creature_count];
 	for(int i = 0; i < frozen_creature_count; i++){ //Have to make a static array of creatures to loop through because the indexes of the creatures in the 'occupants[]'
-		creatures[i] = occupants[i];				//vector change dynamically throughout execution this function
+		creatures[i] = occupants[i];		//vector change dynamically throughout execution this function
 	}
 	for(int i = 0; i < frozen_creature_count; i++){
 		if(creatures[i] -> get_type() == 1){
