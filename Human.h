@@ -9,9 +9,12 @@ class PC;
 class Human: public Creature {
 	int anti_preference;
 public:
-	Human(int the_ID, int t, Room* l);
+	Human(int the_ID, int t, Room* l):Creature(the_ID, t, l){
+		anti_preference = 0;
+	}
 	void react(int action, int type);
 	bool should_change_rooms();
+	void react_negative();
 };
 
 #endif

@@ -19,6 +19,10 @@ public:
 	PC* get_PC();
 	bool clean();
 	bool dirty();
+	virtual void react(int action, int type) = 0;
+	virtual bool should_change_rooms() = 0;
+	virtual void react_negative() = 0;
+	
 protected:
 	int id;
 	int type;

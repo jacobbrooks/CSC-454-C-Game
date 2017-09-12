@@ -148,13 +148,7 @@ void Game::main(){
 				}else if(c -> get_location() -> neighbor_at(c -> get_location() -> direction_index(order)) != NULL){
 					if(!c -> change_rooms(order)){
 						cout << "Room to the " << order << " is full." << endl;
-						if(c -> get_type() == 1){
-							Animal* a = static_cast<Animal*>(c);
-							a -> react(1, 0);
-						}else{
-							Human* h = static_cast<Human*>(c);
-							h -> react(0, 0);
-						}
+					        c -> react_negative();		    
 					}
 				}else{
 					cout << "There is no room to the " << order << "." << endl;

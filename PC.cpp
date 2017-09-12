@@ -4,11 +4,6 @@
 
 using namespace std;
 
-PC::PC(int the_ID, int t, Room* l): Creature(the_ID, t, l){
-	Creature(the_ID, t, l);
-	respect = 40;
-}
-
 int PC::get_respect(){
 	return respect;
 }
@@ -19,4 +14,13 @@ void PC::change_respect(int amount){
 
 void PC::print_respect(){
 	cout << "Respect is now " << respect << endl;
+}
+
+void PC::react(int action, int type){
+}
+
+bool PC::should_change_rooms(){
+}
+
+void PC::react_negative(){
 }

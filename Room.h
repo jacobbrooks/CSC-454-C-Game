@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <time.h>
+#include <cstdlib>
 
 class Creature;
 class Game;

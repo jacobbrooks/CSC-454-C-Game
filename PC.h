@@ -8,10 +8,15 @@ class Room;
 class PC: public Creature {
 	int respect;
 public:
-	PC(int the_ID, int t, Room* l);
+	PC(int the_ID, int t, Room* l): Creature(the_ID, t, l){
+		respect = 40;
+	}
 	int get_respect();
 	void change_respect(int amount);
 	void print_respect();
+	void react(int action, int type);
+	bool should_change_rooms();
+	void react_negative();
 };
 
 #endif

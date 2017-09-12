@@ -124,29 +124,14 @@ void Room::incite_room_state_reactions(Game* g, int action, Creature* c){
 		creatures[i] = occupants[i];		//vector change dynamically throughout execution this function
 	}
 	for(int i = 0; i < frozen_creature_count; i++){
-		if(creatures[i] -> get_type() == 1){
-			Animal* a = static_cast<Animal*>(creatures[i]);
-			if(a -> get_ID() == c -> get_ID()){
-				a -> react(action, 1);
+	        if(creatures[i] -> get_type() != 0){
+			if(creatures[i] -> get_ID() == c -> get_ID()){
+				creatures[i] -> react(action, 1);
 			}else{
-				a -> react(action, 0);
-			}if(a -> should_change_rooms()){
+			       creatures[i] -> react(action, 0);
+			}if(creatures[i] -> should_change_rooms()){
 				if(!all_neighbors_full()){
-					a -> change_rooms(directions[rand_room()]);
-				}else{
-					send_through_roof(g, creatures[i]);
-					incite_negative_reactions();
-				}
-			}
-		}else if(creatures[i] -> get_type() == 2){
-			Human* h = static_cast<Human*>(creatures[i]);
-			if(h -> get_ID() == c -> get_ID()){
-				h -> react(action, 1);
-			}else{
-				h -> react(action, 0);
-			}if(h -> should_change_rooms()){
-				if(!all_neighbors_full()){
-					h -> change_rooms(directions[rand_room()]);
+					creatures[i] -> change_rooms(directions[rand_room()]);
 				}else{
 					send_through_roof(g, creatures[i]);
 					incite_negative_reactions();
@@ -158,13 +143,7 @@ void Room::incite_room_state_reactions(Game* g, int action, Creature* c){
 
 void Room::incite_negative_reactions(){
 	for(int i = 0; i < creature_count; i++){
-		if(occupants[i] -> get_type() == 1){
-			Animal* a = static_cast<Animal*>(occupants[i]);
-			a -> react(1, 0);
-		}else if(occupants[i] -> get_type() == 2){
-			Human* h = static_cast<Human*>(occupants[i]);
-			h -> react(0, 0);
-		}
+	        occupants[i] -> react_negative();
 	}
 }
 

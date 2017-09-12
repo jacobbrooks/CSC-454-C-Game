@@ -5,13 +5,8 @@
 
 using namespace std;
 
-Animal::Animal(int the_ID, int t, Room* l): Creature(the_ID, t, l){
-	Creature(the_ID, t, l);
-	anti_preference = 2;
-}
-
 void Animal::react(int action, int type){
-	string reaction[2] = {"licks your face", "growels"};
+	string reaction[2] = {"licks your face", "growls"};
 	int respect_change[2] = {1, -1};
 	PC* the_PC = get_PC();
 	cout << id << " " << reaction[action];
@@ -29,4 +24,8 @@ bool Animal::should_change_rooms(){
 		return true;
 	}
 	return false;
+}
+
+void Animal::react_negative(){
+  react(1,0);
 }

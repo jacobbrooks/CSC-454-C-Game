@@ -5,11 +5,6 @@
 
 using namespace std;
 
-Human::Human(int the_ID, int t, Room* l): Creature(the_ID, t, l){
-	Creature(the_ID, t, l);
-	anti_preference = 0;
-}
-
 void Human::react(int action, int type){
 	string reaction[2] = {"grumbles", "smiles"};
 	int respect_change[2] = {-1, 1};
@@ -29,4 +24,8 @@ bool Human::should_change_rooms(){
 		return true;
 	}
 	return false;
+}
+
+void Human::react_negative(){
+  react(0,0);
 }
