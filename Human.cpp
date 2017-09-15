@@ -5,6 +5,8 @@
 
 using namespace std;
 
+Human::~Human(){} //Doesn't need to do anything but exist
+
 void Human::react(int action, int type){
 	string reaction[2] = {"grumbles", "smiles"};
 	int respect_change[2] = {-1, 1};
@@ -18,8 +20,6 @@ void Human::react(int action, int type){
 	cout << ". ";
 	the_PC -> print_respect();
 }
-
-Human::~Human(){} //Doesn't need to do anything but exist
 
 bool Human::should_change_rooms(){
 	if(location -> get_state() == anti_preference){

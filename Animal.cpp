@@ -5,6 +5,8 @@
 
 using namespace std;
 
+Animal::~Animal(){} //Doesn't need to do anything but exist
+
 void Animal::react(int action, int type){
 	string reaction[2] = {"licks your face", "growls"};
 	int respect_change[2] = {1, -1};
@@ -18,8 +20,6 @@ void Animal::react(int action, int type){
 	cout << ". ";
 	the_PC -> print_respect();
 }
-
-Animal::~Animal(){} //Doesn't need to do anything but exist
 
 bool Animal::should_change_rooms(){
 	if(location -> get_state() == anti_preference){
