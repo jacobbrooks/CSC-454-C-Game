@@ -9,16 +9,16 @@ class Room;
 class Creature;
 
 class Game{
+	bool game_over();
+	void free_all_memory();
+	void init_rooms();
+	void init_creatures();
 public: 
 	std::vector<Room*> rooms;
 	std::vector<Creature*> creatures;
 	PC* the_PC;
-	void init_rooms();
-	void init_creatures();
 	Creature* get_creature(int id);
 	bool creature_exists(int id);
-	bool game_over();
-	void free_all_memory();
 	void main();
 };
 

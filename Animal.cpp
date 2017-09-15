@@ -19,6 +19,8 @@ void Animal::react(int action, int type){
 	the_PC -> print_respect();
 }
 
+Animal::~Animal(){} //Doesn't need to do anything but exist
+
 bool Animal::should_change_rooms(){
 	if(location -> get_state() == anti_preference){
 		return true;
@@ -27,5 +29,5 @@ bool Animal::should_change_rooms(){
 }
 
 void Animal::react_negative(){
-  react(1,0);
+  	react(1,0);
 }

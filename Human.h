@@ -12,6 +12,7 @@ public:
 	Human(int the_ID, int t, Room* l):Creature(the_ID, t, l){
 		anti_preference = 0;
 	}
+	~Human();
 	void react(int action, int type);
 	bool should_change_rooms();
 	void react_negative();

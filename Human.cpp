@@ -19,6 +19,8 @@ void Human::react(int action, int type){
 	the_PC -> print_respect();
 }
 
+Human::~Human(){} //Doesn't need to do anything but exist
+
 bool Human::should_change_rooms(){
 	if(location -> get_state() == anti_preference){
 		return true;
@@ -27,5 +29,6 @@ bool Human::should_change_rooms(){
 }
 
 void Human::react_negative(){
-  react(0,0);
+ 	 react(0,0);
 }
+

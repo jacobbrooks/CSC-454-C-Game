@@ -16,6 +16,10 @@ class Room{
 	Room* neighbors[4];
 	std::vector<Creature*> occupants;
 	std::string directions[4];
+	void incite_negative_reactions();
+	void send_through_roof(Game* g, Creature* c);
+	int rand_room();
+	bool all_neighbors_full();
 public:
 	Room(int the_ID);
 	void set_state(int st);
@@ -31,12 +35,8 @@ public:
 	std::string state_string();
 	std::string direction_at(int i);
 	int direction_index(std::string direction);
-	int rand_room();
 	bool is_full();
-	bool all_neighbors_full();
 	void incite_room_state_reactions(Game* g, int action, Creature* c);
-	void incite_negative_reactions();
-	void send_through_roof(Game* g, Creature* c);
 };
 
 #endif

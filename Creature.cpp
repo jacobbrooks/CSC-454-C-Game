@@ -11,9 +11,7 @@ Creature::Creature(int the_ID, int t, Room* l){
 	location = l;
 }
 
-void Creature::set_location(Room* l){
-	location = l;
-}
+Creature::~Creature(){}; //Doesn't need to do anything except exist
 
 int Creature::get_ID(){
 	return id;
@@ -61,7 +59,7 @@ void Creature::look(){
 	for(int i = 0; i < location -> get_creature_count(); i++){
 		string creature_type = location -> creature_at(i) -> type_string();
 		int creature_ID = location -> creature_at(i) -> get_ID();
-		if(creature_type.compare("PC") != 0){
+		if(creature_type.compare("PC")){
 			cout << creature_type << " " << creature_ID << endl;
 		}else{
 			cout << creature_type << endl;

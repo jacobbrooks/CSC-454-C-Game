@@ -87,17 +87,17 @@ bool Game::creature_exists(int id){
 
 bool Game::game_over(){
 	if(the_PC -> get_respect() >= 80){
-		cout << "You win!" << endl;
+		cout << "\nYou win!" << endl;
 		return true;
 	}else if(the_PC -> get_respect() <= 0){
-		cout << "You Lose!" << endl;
+		cout << "\nYou Lose!" << endl;
 		return true;
 	}
 	return false;
 }
 
 int colon_index(std::string command){
-	int index;
+	int index = -1;
 	for(int i = 0; i < command.length(); i++){
 		if(command.at(i) == ':'){
 			index = i;
@@ -106,11 +106,10 @@ int colon_index(std::string command){
 	return index;
 }
 
-int creature_id(std::string command){
-	std::string s = command.substr(0, (unsigned long) colon_index);
-	char digits[s.length()];
-	for(int i = 0; i < s.length(); i++){
-		digits[i] = s.at(i);
+int creature_ID(std::string command){
+	char digits[command.length()];
+	for(int i = 0; i < command.length(); i++){
+		digits[i] = command.at(i);
 	}
 	int creature = std::atoi(digits);
 	return creature;
@@ -121,64 +120,51 @@ void Game::main(){
 	init_creatures();
 	string command; 
 	cin >> command;
+	Creature* actor;
+	int actor_ID;
+
 	while(command.compare("exit")){
+		actor = the_PC;
+		actor_ID = the_PC -> get_ID();
 		if(isdigit(command.at(0))){
+			actor_ID = creature_ID(command);
+		}
+		if(creature_exists(actor_ID) && the_PC -> get_location() == get_creature(actor_ID) -> get_location()){
+			actor = get_creature(actor_ID);
 			int colon = colon_index(command);
-			int id = creature_id(command);
-			if(creature_exists(id) && the_PC -> get_location() -> get_ID() == get_creature(id) -> get_location() -> get_ID()){
-				Creature* c = get_creature(id);
-				std::string order = command.substr(colon + 1, (command.length() - (unsigned long) (colon + 1)));
-				if(!order.compare("look")){
-					c -> look();
-				}else if(!order.compare("clean")){
-					if(c -> clean()){
-						c -> get_location() -> incite_room_state_reactions(this, 0, c);
-					}else{
-						cout << "The room is already clean." << endl;
-					}
-				}else if(!order.compare("dirty")){
-					if(c -> dirty()){
-						c -> get_location() -> incite_room_state_reactions(this, 1, c);
-					}else{
-						cout << "The room is already dirty." << endl;
-					}
-				}else if(order.compare("north") != 0 && order.compare("south") != 0 
-					&& order.compare("east") != 0 && order.compare("west") != 0){
-					cout << "'" << order << "' is not a valid command." << endl;
-				}else if(c -> get_location() -> neighbor_at(c -> get_location() -> direction_index(order)) != NULL){
-					if(!c -> change_rooms(order)){
-						cout << "Room to the " << order << " is full." << endl;
-					        c -> react_negative();		    
-					}
+			std::string order;
+			if(colon != -1){
+				order = command.substr(colon + 1, (command.length() - (unsigned long) (colon + 1)));
+			}else{
+				order = command;
+			}
+			if(!order.compare("look")){
+				actor -> look();
+			}else if(!order.compare("clean")){
+				if(actor -> clean()){
+					actor -> get_location() -> incite_room_state_reactions(this, 0, actor);
 				}else{
-					cout << "There is no room to the " << order << "." << endl;
+					cout << "The room is already clean." << endl;
 				}
+			}else if(!order.compare("dirty")){
+				if(actor -> dirty()){
+					actor -> get_location() -> incite_room_state_reactions(this, 1, actor);
+				}else{
+					cout << "The room is already dirty." << endl;
+				}
+			}else if(order.compare("north") && order.compare("south") 
+				&& order.compare("east") && order.compare("west")){
+				cout << "'" << order << "' is not a valid command." << endl;
+			}else if(actor -> get_location() -> neighbor_at(actor -> get_location() -> direction_index(order)) != NULL){
+				if(!actor -> change_rooms(order)){
+					cout << "Room to the " << order << " is full." << endl;
+					actor -> react_negative();
+				}		    
 			}else{
-				cout << id << " is not in the room or does not exist." << endl;
-			}
-		}else if(!command.compare("look")){
-			the_PC -> look();
-		}else if(!command.compare("clean")){
-			if(the_PC -> clean()){
-				the_PC -> get_location() -> incite_room_state_reactions(this, 0, the_PC);
-			}else{
-				cout << "The room is already clean." << endl;
-			}
-		}else if(!command.compare("dirty")){
-			if(the_PC -> dirty()){
-				the_PC -> get_location() -> incite_room_state_reactions(this, 1, the_PC);
-			}else{
-				cout << "The room is already dirty." << endl;
-			}
-		}else if(command.compare("north") != 0 && command.compare("south") != 0 
-			&& command.compare("east") != 0 && command.compare("west") != 0){
-			cout << "'" << command << "' is not a valid command." << endl;
-		}else if(the_PC -> get_location() -> neighbor_at(the_PC -> get_location() -> direction_index(command)) != NULL){
-			if(!the_PC -> change_rooms(command)){
-				cout << "Room to the " << command << " is full." << endl;
+				cout << "There is no room to the " << order << "." << endl;
 			}
 		}else{
-			cout << "There is no room to the " << command << "." << endl;
+			cout << actor_ID << " is not in the room or does not exist." << endl;
 		}
 		if(game_over()){
 			break;
@@ -186,6 +172,7 @@ void Game::main(){
 		cout << endl;
 		cin >> command;
 	}
+
 	cout << endl;
 	cout << "Goodbye!" << endl;
 	free_all_memory();

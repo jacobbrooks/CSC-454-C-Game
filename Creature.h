@@ -9,7 +9,7 @@ class PC;
 class Creature{
 public:
 	Creature(int the_ID, int t, Room* l);
-	void set_location(Room* l);
+	virtual ~Creature() = 0;
 	int get_ID();
 	int get_type();
 	Room* get_location();

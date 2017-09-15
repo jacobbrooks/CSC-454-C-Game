@@ -17,6 +17,7 @@ Room::Room(int the_ID){
 	for(int i = 0; i < 4; i++){
 		directions[i] = the_directions[i];
 	}
+	srand(time(NULL));
 }
 
 void Room::set_state(int st){
@@ -83,7 +84,7 @@ string Room::direction_at(int i){
 int Room::direction_index(string direction){
 	int index;
 	for(int i = 0; i < 4; i++){
-		if(direction.compare(directions[i]) == 0){
+		if(!direction.compare(directions[i])){
 			index = i;
 		}
 	}
@@ -91,7 +92,6 @@ int Room::direction_index(string direction){
 }
 
 int Room::rand_room(){
-	srand(time(NULL));
 	int random_number = rand() % 4;
 	while(neighbors[random_number] == NULL || neighbors[random_number] -> is_full()){
 		random_number = rand() % 4;
@@ -118,17 +118,17 @@ bool Room::all_neighbors_full(){
 }
 
 void Room::incite_room_state_reactions(Game* g, int action, Creature* c){
-	int frozen_creature_count = creature_count;
-	Creature* creatures[frozen_creature_count];
-	for(int i = 0; i < frozen_creature_count; i++){ //Have to make a static array of creatures to loop through because the indexes of the creatures in the 'occupants[]'
-		creatures[i] = occupants[i];		//vector change dynamically throughout execution this function
+	int temp_creature_count = creature_count;
+	Creature* creatures[temp_creature_count];
+	for(int i = 0; i < temp_creature_count; i++){ //Have to make a temporary array of creatures to loop over because the indexes of the creatures in the 'occupants[]'
+		creatures[i] = occupants[i];			  //vector may change dynamically throughout execution of this function
 	}
-	for(int i = 0; i < frozen_creature_count; i++){
-	        if(creatures[i] -> get_type() != 0){
-			if(creatures[i] -> get_ID() == c -> get_ID()){
+	for(int i = 0; i < temp_creature_count; i++){
+	    if(creatures[i] -> get_type() != 0){
+			if(creatures[i] == c){
 				creatures[i] -> react(action, 1);
 			}else{
-			       creatures[i] -> react(action, 0);
+			   	creatures[i] -> react(action, 0);
 			}if(creatures[i] -> should_change_rooms()){
 				if(!all_neighbors_full()){
 					creatures[i] -> change_rooms(directions[rand_room()]);
@@ -141,32 +141,24 @@ void Room::incite_room_state_reactions(Game* g, int action, Creature* c){
 	}
 }
 
-void Room::incite_negative_reactions(){
-	for(int i = 0; i < creature_count; i++){
-	        occupants[i] -> react_negative();
-	}
-}
-
 void Room::send_through_roof(Game* g, Creature* c){
-	int index_in_occupants;
-	for(int i = 0; i < creature_count; i++){
-		if(c -> get_ID() == occupants[i] -> get_ID()){
-			index_in_occupants = i;
-		}
-	}
-	Creature* creature_to_delete = c;
-	int creature_ID = creature_to_delete -> get_ID();
-	string type = creature_to_delete -> type_string();
+	int creature_ID = c -> get_ID();
+	string type = c -> type_string();
 	for(int j = 0; j < g -> creatures.size(); j++){
-		if(g -> creatures[j] -> get_ID() == creature_ID){
+		if(g -> creatures[j] == c){
 			g -> creatures.erase(g -> creatures.begin() + j);
 		}
 	}
 	cout << type << " " << creature_ID << " drills a hole through the ceiling, and leaves." << endl;
-	remove_creature(creature_to_delete);
-	delete creature_to_delete;
+	remove_creature(c);
+	delete c;
 }	
 
+void Room::incite_negative_reactions(){
+	for(int i = 0; i < creature_count; i++){
+		occupants[i] -> react_negative();
+	}
+}
 
 
 

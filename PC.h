@@ -11,6 +11,7 @@ public:
 	PC(int the_ID, int t, Room* l): Creature(the_ID, t, l){
 		respect = 40;
 	}
+	~PC();
 	int get_respect();
 	void change_respect(int amount);
 	void print_respect();
