@@ -118,10 +118,17 @@ bool Room::all_neighbors_full(){
 }
 
 void Room::incite_room_state_reactions(Game* g, int action, Creature* c){
+
+	/*Below: A temporary array of creatures to loop 
+	over because the indexes of the creatures 
+	in the 'occupants[]'vector may change 
+	dynamically throughout execution of this 
+	function*/
+
 	int temp_creature_count = creature_count;
 	Creature* creatures[temp_creature_count];
-	for(int i = 0; i < temp_creature_count; i++){ //Have to make a temporary array of creatures to loop over because the indexes of the creatures in the 'occupants[]'
-		creatures[i] = occupants[i];			  //vector may change dynamically throughout execution of this function
+	for(int i = 0; i < temp_creature_count; i++){ 
+		creatures[i] = occupants[i];			  
 	}
 	for(int i = 0; i < temp_creature_count; i++){
 	    if(creatures[i] -> get_type() != 0){

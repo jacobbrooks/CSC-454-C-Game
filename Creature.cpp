@@ -72,15 +72,9 @@ bool Creature::change_rooms(string direction){
 	if(location -> neighbor_at(neighbor_index) -> is_full()){
 		return false;
 	}
-	Creature* c = NULL;
-	for(int i = 0; i < location -> get_creature_count(); i++){
-		if(location -> creature_at(i) -> get_ID() == id){
-			c = location -> creature_at(i);
-		}
-	}
 	Room* r = location -> neighbor_at(neighbor_index);
-	r -> add_creature(c);
-	location -> remove_creature(c);
+	r -> add_creature(this);
+	location -> remove_creature(this);
 	location = r;
 	if(type == 0){
 		cout << "You leave towards the " << direction << "." << endl;
